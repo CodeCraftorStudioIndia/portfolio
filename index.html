@@ -3,193 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>TryHost | India's Best Free Hosting Service - 99.9% Uptime</title>
-    <meta name="title" content="TryHost | India's Best Free Hosting Service">
-    <meta name="description" content="Get high-performance free web hosting in India with TryHost.xyz. PHP, MySQL, Free SSL, and no forced ads. Start your website today for ₹0.">
-    <meta name="keywords" content="Free hosting India, TryHost, best free web hosting, free hosting with SSL, PHP MySQL free hosting">
-    <meta name="author" content="TryHost">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebHosting",
-      "name": "TryHost",
-      "url": "https://tryhost.xyz",
-      "logo": "https://tryhost.xyz/logo.png",
-      "description": "India's Best Free Hosting Service with unlimited features and 99.9% uptime.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "IN"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "0.00",
-        "priceCurrency": "INR"
-      }
-    }
-    </script>
-
+    <title>My Notebook Content</title>
     <style>
+        /* CSS Variables for a clean, modern look */
         :root {
-            --primary: #2563eb;
-            --secondary: #0f172a;
-            --accent: #10b981;
-            --text: #334155;
-            --bg: #f8fafc;
+            --bg-color: #f8f9fa;
+            --text-color: #202124;
+            --sidebar-bg: #ffffff;
+            --primary-color: #1a73e8;
+            --border-color: #dadce0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+        }
 
-        body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+        body { 
+            margin: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+        }
 
-        /* Navigation */
-        nav {
-            background: #fff;
-            padding: 1rem 10%;
-            display: flex;
+        /* Header Styles */
+        header { 
+            background-color: var(--sidebar-bg); 
+            padding: 16px 24px; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            align-items: center; 
             justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
-        .logo span { color: var(--secondary); }
-
-        .nav-links a { text-decoration: none; color: var(--text); margin-left: 2rem; font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
-
-        .btn-client {
-            background: var(--primary);
-            color: white !important;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
+        header h1 { 
+            margin: 0; 
+            font-size: 1.5rem; 
+            font-weight: 500; 
         }
 
-        /* Hero Section */
-        header {
-            padding: 5rem 10%;
-            text-align: center;
-            background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+        /* Layout */
+        .container { 
+            display: flex; 
+            flex: 1; 
+            overflow: hidden; 
         }
 
-        .hero-tag {
-            background: #dbeafe;
-            color: var(--primary);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 1rem;
+        /* Sidebar Navigation */
+        nav.sidebar { 
+            width: 250px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid var(--border-color); 
+            padding: 16px; 
+            overflow-y: auto; 
         }
 
-        h1 { font-size: 3rem; color: var(--secondary); margin-bottom: 1rem; }
-        .hero-sub { font-size: 1.2rem; margin-bottom: 2rem; max-width: 700px; margin-inline: auto; }
+        nav.sidebar ul { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+        }
 
-        /* Features */
-        .features { padding: 5rem 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-        .card {
-            background: white;
-            padding: 2rem;
+        nav.sidebar li { 
+            margin-bottom: 8px; 
+        }
+
+        nav.sidebar a { 
+            text-decoration: none; 
+            color: var(--text-color); 
+            padding: 10px 12px; 
+            display: block; 
+            border-radius: 6px; 
+            transition: background 0.2s; 
+        }
+
+        nav.sidebar a:hover { 
+            background-color: #f1f3f4; 
+        }
+
+        nav.sidebar a.active { 
+            background-color: #e8f0fe; 
+            color: var(--primary-color); 
+            font-weight: 500; 
+        }
+
+        /* Main Content Area */
+        main { 
+            flex: 1; 
+            padding: 32px; 
+            overflow-y: auto; 
+            background-color: var(--bg-color); 
+        }
+
+        .card { 
+            background: white; 
+            padding: 32px; 
+            border-radius: 8px; 
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); 
+            max-width: 800px; 
+            margin: 0 auto; 
+            line-height: 1.6; 
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .source-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: #e8eaed;
+            color: #3c4043;
+            padding: 4px 8px;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { color: var(--secondary); margin-bottom: 1rem; }
-
-        /* Stats Section */
-        .stats { background: var(--secondary); color: white; padding: 4rem 10%; display: flex; justify-content: space-around; text-align: center; }
-        .stat-item h2 { font-size: 2.5rem; color: var(--accent); }
-
-        /* CTA */
-        .cta { padding: 5rem 10%; text-align: center; background: var(--primary); color: white; }
-        .btn-lg {
-            display: inline-block;
-            background: white;
-            color: var(--primary);
-            padding: 1rem 2.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
-        footer { padding: 2rem 10%; background: #fff; text-align: center; border-top: 1px solid #e2e8f0; }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .nav-links { display: none; }
-            .stats { flex-direction: column; gap: 2rem; }
+            .container { 
+                flex-direction: column; 
+            }
+            nav.sidebar { 
+                width: 100%; 
+                height: auto; 
+                border-right: none; 
+                border-bottom: 1px solid var(--border-color); 
+            }
+            main {
+                padding: 16px;
+            }
+            .card {
+                padding: 24px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Try<span>Host</span></div>
-        <div class="nav-links">
-            <a href="#features">Features</a>
-            <a href="#">Support</a>
-            <a href="#" class="btn-client">Client Area</a>
-        </div>
-    </nav>
-
     <header>
-        <span class="hero-tag">🇮🇳 India's #1 Free Web Hosting</span>
-        <h1>Free Hosting for Everyone.</h1>
-        <p class="hero-sub">Empower your online presence with tryhost.xyz. Get PHP, MySQL, and a free sub-domain without spending a single Paisa.</p>
-        <a href="#" class="btn-lg" style="background: var(--primary); color: white;">Start Free Hosting</a>
+        <h1>My Notebook</h1>
     </header>
 
-    <section class="stats">
-        <div class="stat-item">
-            <h2>99.9%</h2>
-            <p>Uptime Guarantee</p>
-        </div>
-        <div class="stat-item">
-            <h2>50k+</h2>
-            <p>Websites Hosted</p>
-        </div>
-        <div class="stat-item">
-            <h2>0</h2>
-            <p>Hidden Costs</p>
-        </div>
-    </section>
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#summary" class="active">Overview & Summary</a></li>
+                <li><a href="#key-concepts">Key Concepts</a></li>
+                <li><a href="#sources">Sources</a></li>
+            </ul>
+        </nav>
 
-    <section class="features" id="features">
-        <div class="card">
-            <h3>No Forced Ads</h3>
-            <p>We don't put any ads on your website. Your site, your content, your rules.</p>
-        </div>
-        <div class="card">
-            <h3>Free SSL Certificates</h3>
-            <p>Secure your site and improve SEO rankings with our one-click free SSL setup.</p>
-        </div>
-        <div class="card">
-            <h3>PHP & MySQL Support</h3>
-            <p>Run WordPress, Joomla, or custom scripts with full database support.</p>
-        </div>
-        <div class="card">
-            <h3>Fastest in India</h3>
-            <p>Optimized servers ensuring the lowest latency for your Indian visitors.</p>
-        </div>
-    </section>
+        <main>
+            <div class="card" id="summary">
+                <div class="source-tags">
+                    <span class="tag">Source 1</span>
+                    <span class="tag">Source 2</span>
+                </div>
+                <h2>Overview & Summary</h2>
+                <p><strong>[Paste your NotebookLM summary here]</strong></p>
+                <p>This layout is designed to mimic a clean documentation reader. As you scroll or add content, the layout will automatically adjust for mobile phones, tablets, and desktop screens.</p>
+                
+                <hr style="border: none; border-top: 1px solid #dadce0; margin: 32px 0;">
 
-    <section class="cta">
-        <h2>Ready to go online?</h2>
-        <p>Join thousands of users who trust TryHost for their web projects.</p>
-        <a href="#" class="btn-lg">Create Your Account</a>
-    </section>
+                <h2 id="key-concepts">Key Concepts</h2>
+                <ul>
+                    <li><strong>Concept 1:</strong> Detail about the first key topic extracted from your notebook.</li>
+                    <li><strong>Concept 2:</strong> Detail about the second key topic.</li>
+                    <li><strong>Concept 3:</strong> Detail about the third key topic.</li>
+                </ul>
 
-    <footer>
-        <p>&copy; 2026 TryHost (tryhost.xyz). Made with ❤️ in India. All rights reserved.</p>
-    </footer>
+                <hr style="border: none; border-top: 1px solid #dadce0; margin: 32px 0;">
+
+                <h2 id="sources">Sources</h2>
+                <p>List the files, links, or documents that you fed into NotebookLM below:</p>
+                <ul>
+                    <li>Source Material A.pdf</li>
+                    <li>Source Material B.docx</li>
+                </ul>
+            </div>
+        </main>
+    </div>
 
 </body>
 </html>
