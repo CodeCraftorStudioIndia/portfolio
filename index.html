@@ -14,10 +14,11 @@
             --accent-color: #bd93f9;
             --user-msg: #6272a4;
             --ai-msg: #383a59;
+            --error-msg: #ff5555;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -30,32 +31,30 @@
 
         header {
             background-color: var(--panel-bg);
-            padding: 15px 20px;
+            padding: 15px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .settings-group {
+        .settings-row {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            flex: 1;
+            width: 100%;
         }
 
         input[type="password"], select {
-            padding: 8px 12px;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 6px;
             border: 1px solid var(--border-color);
             background-color: var(--bg-color);
             color: var(--text-color);
             outline: none;
             font-size: 14px;
             flex: 1;
-            min-width: 150px;
+            min-width: 140px;
         }
 
         input[type="password"]:focus, select:focus {
@@ -89,13 +88,22 @@
             background-color: var(--ai-msg);
             border: 1px solid var(--border-color);
             width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Styling for markdown code blocks */
+        .error-message {
+            align-self: flex-start;
+            background-color: rgba(255, 85, 85, 0.1);
+            border: 1px solid var(--error-msg);
+            color: var(--error-msg);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         pre {
             background-color: #000;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 6px;
             overflow-x: auto;
         }
         
@@ -110,6 +118,7 @@
             border-top: 1px solid var(--border-color);
             display: flex;
             gap: 10px;
+            align-items: flex-end;
         }
 
         textarea {
@@ -117,10 +126,10 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             border: 1px solid var(--border-color);
-            border-radius: 5px;
+            border-radius: 6px;
             padding: 12px;
             resize: none;
-            height: 50px;
+            height: 44px;
             font-family: inherit;
             outline: none;
         }
@@ -133,8 +142,9 @@
             background-color: var(--accent-color);
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             padding: 0 20px;
+            height: 46px;
             font-weight: bold;
             cursor: pointer;
             transition: opacity 0.2s;
@@ -157,17 +167,12 @@
             padding: 10px;
         }
 
-        /* Mobile specific adjustments */
         @media (max-width: 600px) {
             .message {
                 max-width: 95%;
             }
-            .settings-group {
+            .settings-row {
                 flex-direction: column;
-            }
-            input[type="password"], select {
-                width: 100%;
-                box-sizing: border-box;
             }
         }
     </style>
@@ -175,25 +180,26 @@
 <body>
 
     <header>
-        <div class="settings-group">
-            <input type="password" id="api-key" placeholder="Enter Anthropic API Key (sk-ant-...)">
+        <div class="settings-row">
+            <input type="password" id="api-key" placeholder="Paste Anthropic API Key (sk-ant-...)">
             <select id="model-select">
-                <option value="claude-4-6-sonnet-latest">Claude 4.6 Sonnet (Best for Coding)</option>
-                <option value="claude-4-5-haiku-latest">Claude 4.5 Haiku (Fast & Cheaper)</option>
-                <option value="claude-3-opus-latest">Claude 3 Opus (Complex tasks)</option>
-                <option value="claude-3-sonnet-20240229">Claude 3 Sonnet (Older)</option>
-                <option value="claude-3-haiku-20240307">Claude 3 Haiku (Older)</option>
+                <option value="claude-sonnet-4-6">Claude Sonnet 4.6 (Latest & Best for Coding)</option>
+                <option value="claude-opus-4-6">Claude Opus 4.6 (Most Powerful)</option>
+                <option value="claude-sonnet-4-5">Claude Sonnet 4.5</option>
+                <option value="claude-opus-4-5">Claude Opus 4.5</option>
+                <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (Fastest & Cheapest)</option>
+                <option value="claude-3-5-sonnet-latest">Claude 3.5 Sonnet (Legacy)</option>
             </select>
         </div>
     </header>
 
     <div id="chat-container">
         <div class="message ai-message">
-            👋 Hi! I'm your Claude Coding Agent. Please enter your API key at the top, select your model, and tell me what you'd like to build!
+            👋 Hi! I'm your Claude Coding Agent. Enter your API key, select your model (like the new 4.6), and tell me what to build!
         </div>
     </div>
     
-    <div class="loader" id="loader">Claude is thinking and writing code...</div>
+    <div class="loader" id="loader">Claude is thinking...</div>
 
     <div class="input-area">
         <textarea id="prompt-input" placeholder="Ask me to write some HTML, Python, JS, etc..."></textarea>
@@ -208,19 +214,19 @@
         const modelSelect = document.getElementById('model-select');
         const loader = document.getElementById('loader');
 
-        // Conversation history
         let conversationHistory = [];
 
-        function appendMessage(role, content) {
+        function appendMessage(role, content, isError = false) {
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('message');
-            msgDiv.classList.add(role === 'user' ? 'user-message' : 'ai-message');
             
-            // Parse Markdown for AI messages to render code properly
-            if (role === 'ai') {
-                msgDiv.innerHTML = marked.parse(content);
+            if (isError) {
+                msgDiv.classList.add('error-message');
+                msgDiv.innerHTML = `<strong>Error:</strong> ${content}`;
             } else {
-                msgDiv.textContent = content;
+                msgDiv.classList.add(role === 'user' ? 'user-message' : 'ai-message');
+                // Use Marked.js to render markdown and code blocks for AI
+                msgDiv.innerHTML = role === 'ai' ? marked.parse(content) : content;
             }
             
             chatContainer.appendChild(msgDiv);
@@ -240,12 +246,10 @@
 
             if (!prompt) return;
 
-            // Add user message to UI and history
             appendMessage('user', prompt);
             conversationHistory.push({ role: "user", content: prompt });
             promptInput.value = '';
             
-            // UI state
             sendBtn.disabled = true;
             loader.style.display = 'block';
 
@@ -256,33 +260,46 @@
                         'x-api-key': apiKey,
                         'anthropic-version': '2023-06-01',
                         'content-type': 'application/json',
-                        // REQUIRED for browser fetch without a backend server
+                        // REQUIRED to bypass Anthropic's block on browser requests (like GitHub pages)
                         'anthropic-dangerous-direct-browser-access': 'true' 
                     },
                     body: JSON.stringify({
                         model: model,
                         max_tokens: 4096,
-                        system: "You are an expert software developer and coding assistant. Provide clean, well-documented code.",
+                        system: "You are an expert software developer. Provide clean, well-documented code.",
                         messages: conversationHistory
                     })
                 });
 
+                // Detailed Error Handling
                 if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error("Invalid API Key. Please check that your key is correct and your Anthropic account has active billing credits.");
+                    } else if (response.status === 403) {
+                        throw new Error("Access Denied. This could be a CORS issue, or your key does not have permission for this model.");
+                    } else if (response.status === 429) {
+                        throw new Error("Rate limit exceeded or out of credits. Please check your Anthropic dashboard.");
+                    }
+                    
                     const errorData = await response.json();
-                    throw new Error(errorData.error?.message || "API request failed");
+                    throw new Error(errorData.error?.message || `API request failed with status ${response.status}`);
                 }
 
                 const data = await response.json();
                 const aiText = data.content[0].text;
 
-                // Add AI response to UI and history
                 appendMessage('ai', aiText);
                 conversationHistory.push({ role: "assistant", content: aiText });
 
             } catch (error) {
-                appendMessage('ai', `❌ **Error:** ${error.message}`);
-                // Remove the last user message from history so they can retry
-                conversationHistory.pop();
+                let errorMsg = error.message;
+                // Fetch throws a TypeError on network/CORS failures before HTTP status can be checked
+                if (error.name === 'TypeError' && errorMsg.includes('fetch')) {
+                    errorMsg = "Network/CORS Error. Ensure 'anthropic-dangerous-direct-browser-access' is allowed by your browser, or check your internet connection.";
+                }
+                
+                appendMessage('ai', errorMsg, true);
+                conversationHistory.pop(); // Remove user msg from history so they can try again
             } finally {
                 sendBtn.disabled = false;
                 loader.style.display = 'none';
@@ -292,7 +309,6 @@
 
         sendBtn.addEventListener('click', handleSend);
 
-        // Allow pressing Enter to send (Shift+Enter for new line)
         promptInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
